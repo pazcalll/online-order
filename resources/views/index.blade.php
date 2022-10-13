@@ -21,7 +21,7 @@
 
     @include('header')
     
-    <div class="page-section wow fadeInUp">
+    <div class="page-section wow fadeInUp" style="padding-top:20px">
         
         @include('promo')
         
