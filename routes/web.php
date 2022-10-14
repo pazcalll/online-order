@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
+
+Route::post('save-calculation', [MainController::class, 'saveCalculation'])->name('save-calculation');
+Route::get('get-calculation', [MainController::class, 'getCalculation'])->name('get-calculation');

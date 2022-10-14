@@ -54,7 +54,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                
+                <div class="container-fluid row calculated">
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -137,11 +139,74 @@
                 data.push(individual)
             })
         })
-        promo.min_purchase = document.querySelectorAll('.container_promo div input')[0].value
+        promo.min_price = document.querySelectorAll('.container_promo div input')[0].value
         promo.discount_percentage = document.querySelectorAll('.container_promo div input')[1].value
         promo.max_amount_discount = document.querySelectorAll('.container_promo div input')[2].value
         promo.shipping_cost = document.querySelectorAll('.container_promo div input')[3].value
-        console.log(data)
-        console.log(promo)
+        // console.log(data)
+        // console.log(promo)
+
+        $('.calculate').css('display', 'none')
+        $('svg').css('display', 'block')
+
+        $.ajax({
+            url: "{{ route('save-calculation') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                data: data,
+                promo: promo
+            },
+            success: function(res) {
+                console.log(res)
+                $.ajax({
+                    url: "{{ route('get-calculation') }}",
+                    type: "GET",
+                    data: {
+                        id: res
+                    },
+                    success: function(res) {
+                        var cards = ``
+                        res.bill.forEach(detail => {
+                            cards += `
+                                <div class="col-lg-6" style="border-radius: 30px">
+                                    <div class="card-service border shadow" style="max-width: initial">
+                                        <div class="header" style="margin: 0">
+                                            <strong>${detail.person}</strong>
+                                        </div>
+                                        <hr>
+                                        <div class="body" id="input-body1">
+                                            <div class="row" mb-1" >
+                                        `
+                            detail.orders.forEach(order => {
+                                cards += `
+                                                <span class="col-4">
+                                                    ${order.food}
+                                                </span>
+                                                <span class="col-4">
+                                                    ${order.price} X ${order.number}
+                                                </span>
+                                                <span class="col-4">
+                                                    ${order.price*order.number}
+                                                </span>
+                                                <br>
+                                `
+                            })
+                            cards += `          <hr>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                `
+                        })
+                        $('.calculated').html(cards)
+
+                        $('svg').css('display', 'none')
+                        $('.calculate').css('display', 'block')
+                    }
+                })
+            }
+        })
     })
 </script>
