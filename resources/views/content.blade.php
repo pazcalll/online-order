@@ -30,12 +30,17 @@
             <button class="btn btn-primary" style="max-height: 100px; max-width: 100px" onclick="cardAdder()">Tambah Orang</button>
         </div>
     </div>
-    <div class="row" style="position: sticky; ">
-        <button class="btn btn-info" style="width: 100%" data-toggle="modal" data-target="#calculateModal">
+    <span style="width: 100%">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:none;" width="50px" height="50px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+            <circle cx="50" cy="50" fill="none" stroke="#00d5ff" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+            </circle>
+        </svg>
+        <button class="btn btn-info calculate" style="width: 100%" data-toggle="modal" data-target="#calculateModal">
             <span class="mai-calculator"></span>
             Kalkulasi
         </button>
-    </div>
+    </span>
 </div>
 
 <!-- Modal -->
@@ -108,4 +113,35 @@
     function deleteMenu(e) {
         $(e).closest(`.input-group`).remove()
     }
+
+    $('.calculate').on('click', function() {
+        var data = []
+        var promo = {}
+        var divs = document.querySelectorAll('.card-container').forEach(function(el) {
+            el.querySelectorAll('.col-lg-6').forEach(function(card) {
+                var person = card.querySelector('.header input').value
+                var individual = {
+                    person: person,
+                    order: []
+                }
+                
+                var inputLine = card.querySelectorAll('.body div')
+                
+                inputLine.forEach(function(line) {
+                    individual.order.push({
+                        food: line.querySelectorAll('input')[0].value,
+                        price: line.querySelectorAll('input')[1].value,
+                        number: line.querySelectorAll('input')[2].value
+                    })
+                })
+                data.push(individual)
+            })
+        })
+        promo.min_purchase = document.querySelectorAll('.container_promo div input')[0].value
+        promo.discount_percentage = document.querySelectorAll('.container_promo div input')[1].value
+        promo.max_amount_discount = document.querySelectorAll('.container_promo div input')[2].value
+        promo.shipping_cost = document.querySelectorAll('.container_promo div input')[3].value
+        console.log(data)
+        console.log(promo)
+    })
 </script>
