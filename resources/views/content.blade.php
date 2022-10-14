@@ -59,6 +59,10 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <span style="margin-right: auto">
+                    Total Tagihan: 
+                    <span class="bill-total"></span>
+                </span>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
         </div>
@@ -167,7 +171,8 @@
                     },
                     success: function(res) {
                         var cards = ``
-                        res.bill.forEach(detail => {
+                        var calculateTotal = 0
+                        res.bill.forEach((detail, _index) => {
                             cards += `
                                 <div class="col-lg-6" style="border-radius: 30px">
                                     <div class="card-service border shadow" style="max-width: initial">
@@ -178,6 +183,7 @@
                                         <div class="body" id="input-body1">
                                             <div class="row" mb-1" >
                                         `
+                            cardTotal = 0
                             detail.orders.forEach(order => {
                                 cards += `
                                                 <span class="col-4">
@@ -191,15 +197,20 @@
                                                 </span>
                                                 <br>
                                 `
+                                cardTotal += order.price*order.number
                             })
-                            cards += `          <hr>
-                                                
+                            cards += `          
                                             </div>
+                                            <hr>
+                                            <span class="col-6">Sub-Total:</span>
+                                            <span class="col-6 card${_index}">${cardTotal}</span>
                                         </div>
                                     </div>
                                 </div>
                                 `
+                            calculateTotal += cardTotal
                         })
+                        $('.bill-total').html(calculateTotal)
                         $('.calculated').html(cards)
 
                         $('svg').css('display', 'none')
