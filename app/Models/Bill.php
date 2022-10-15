@@ -11,7 +11,7 @@ class Bill extends Model
     use SoftDeletes;
     use HasFactory;
 
-    protected $fillable = ['note', 'min_price', 'percentage_discount', 'amount_discount', 'shipping_cost', 'deleted_at'];
+    protected $fillable = ['note', 'min_price', 'percentage_discount', 'max_amount_discount', 'shipping_cost', 'deleted_at'];
 
     public function bill_detail()
     {

@@ -18,7 +18,7 @@ class CreateBillsTable extends Migration
             $table->string('note');
             $table->integer('min_price');
             $table->integer('percentage_discount');
-            $table->integer('amount_discount');
+            $table->integer('max_amount_discount');
             $table->integer('shipping_cost');
             $table->timestamps();
             $table->softDeletes();

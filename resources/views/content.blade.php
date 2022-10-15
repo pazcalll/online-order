@@ -36,7 +36,7 @@
                 <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
             </circle>
         </svg>
-        <button class="btn btn-info calculate" style="width: 100%" data-toggle="modal" data-target="#calculateModal">
+        <button class="btn btn-info calculate" style="width: 100%">
             <span class="mai-calculator"></span>
             Kalkulasi
         </button>
@@ -61,8 +61,10 @@
             <div class="modal-footer">
                 <span style="margin-right: auto">
                     Total Tagihan: 
-                    <span class="bill-total"></span>
+                    <span class="bill-total" class="mr-1" data-actual-bill=""></span>
+                    <span class="bill-total-discount" data-discount=""></span>
                 </span>
+                (termasuk ongkir <span class="bill-shipping-cost" data-shipping-cost=""></span>)
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
             </div>
         </div>
@@ -183,7 +185,7 @@
                                         <div class="body" id="input-body1">
                                             <div class="row" mb-1" >
                                         `
-                            cardTotal = 0
+                            var cardTotal = 0
                             detail.orders.forEach(order => {
                                 cards += `
                                                 <span class="col-4">
@@ -202,19 +204,60 @@
                             cards += `          
                                             </div>
                                             <hr>
+                                            <span style="display: none" class="card-val-${_index}" data-card="${cardTotal}"></span>
                                             <span class="col-6">Sub-Total:</span>
-                                            <span class="col-6 card${_index}">${cardTotal}</span>
+                                            <span class="col-6 card${_index}">
+                                                <span>
+                                                    ${cardTotal}
+                                                </span>
+                                                <span></span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 `
                             calculateTotal += cardTotal
                         })
-                        $('.bill-total').html(calculateTotal)
+                        $('.bill-total').html(calculateTotal+parseFloat(res.promo.shipping_cost))
+                        $('.bill-total').data('actual-bill', calculateTotal+parseFloat(res.promo.shipping_cost))
                         $('.calculated').html(cards)
+
+                        console.log(res.promo)
+
+                        $('#calculateModal').modal('show')
 
                         $('svg').css('display', 'none')
                         $('.calculate').css('display', 'block')
+                        
+                        var discount = 0
+                        var calculateTotalDiscount = 0
+                        if (calculateTotal >= res.promo.min_price) {
+                            discount = calculateTotal*0.3
+                            if (discount <= res.promo.max_amount_discount) {
+                                res.bill.forEach((detail, _index) => {
+                                    var cardTotalDiscount = 0
+                                    detail.orders.forEach(order => {
+                                        cardTotalDiscount += order.price*order.number*0.3
+                                    })
+                                    console.log(document.querySelector(`.card${_index}`).querySelectorAll('span'))
+                                    document.querySelector(`.card${_index}`).querySelectorAll('span')[0].style.textDecoration = "line-through"
+                                    // document.querySelector(`.card${_index}`).querySelectorAll('span')[1].innerHTML = parseFloat($(`.card-val-${_index}`).data('card')) - cardTotalDiscount
+                                    calculateTotalDiscount+=cardTotalDiscount
+                                });
+                                res.bill.forEach((detail, _index) => {
+                                    console.log(parseFloat($(`.card-val-${_index}`).data('card')))
+                                    console.log(calculateTotalDiscount)
+                                    console.log(parseFloat($('.bill-total').data('actual-bill'))-calculateTotalDiscount)
+                                    console.log((parseFloat($(`.card-val-${_index}`).data('card')) / (parseFloat($('.bill-total').data('actual-bill'))-calculateTotalDiscount)))
+                                    document.querySelector(`.card${_index}`).querySelectorAll('span')[1].innerHTML = (parseFloat($(`.card-val-${_index}`).data('card')) / (parseFloat($('.bill-total').data('actual-bill'))-calculateTotalDiscount)) * res.promo.percentage_discounts
+                                })
+                                document.querySelector('.bill-total').style.textDecoration = "line-through"
+                                document.querySelector(`.bill-total-discount`).innerHTML = parseFloat($('.bill-total').data('actual-bill'))-calculateTotalDiscount
+                                $('.bill-total-discount').data('discount', calculateTotalDiscount)
+                            }
+                        }
+                        $('.bill-shipping-cost').data('shipping-cost', res.promo.shipping_cost)
+                        $('.bill-shipping-cost').html(res.promo.shipping_cost)
                     }
                 })
             }

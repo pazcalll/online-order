@@ -18,7 +18,7 @@ class MainController extends Controller
             'note' => md5(date('Y-m-d H:i:s')),
             'min_price' => request('promo')['min_price'],
             'percentage_discount' => request('promo')['discount_percentage'],
-            'amount_discount' => request('promo')['max_amount_discount'],
+            'max_amount_discount' => request('promo')['max_amount_discount'],
             'shipping_cost' => request('promo')['shipping_cost']
         ]);
         foreach (request('data') as $key => $value) {
@@ -70,7 +70,12 @@ class MainController extends Controller
             }
             array_push($newBill, $object);
         }
+        $promo = new stdClass();
+        $promo->max_amount_discount = $bill['max_amount_discount'];
+        $promo->min_price = $bill['min_price'];
+        $promo->percentage_discount = $bill['percentage_discount'];
+        $promo->shipping_cost = $bill['shipping_cost'];
         // dd($bill['amount_discount'], $bill['min_price'], $bill['percentage_discount'], $bill['shipping_cost']);
-        return response(['bill' => $newBill, 'promo' => [$bill['amount_discount'], $bill['min_price'], $bill['percentage_discount'], $bill['shipping_cost']]], 200);
+        return response(['bill' => $newBill, 'promo' => $promo], 200);
     }
 }
