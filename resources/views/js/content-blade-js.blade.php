@@ -180,22 +180,6 @@
                                 $('.bill-total-discount').data('discount', calculateTotalDiscount)
                                 console.log(`data-discount=${$('.bill-total-discount').data('discount')}`)
                             } else if (discount > res.promo.max_amount_discount) {
-                                // res.bill.forEach((detail, _index) => {
-                                //     var cardTotalDiscount = 0
-                                //     detail.orders.forEach(order => {
-                                //         cardTotalDiscount += order.price*order.number
-                                //     })
-                                //     console.log(document.querySelector(`.card${_index}`).querySelectorAll('span'))
-                                //     document.querySelector(`.card${_index}`).querySelectorAll('span')[0].style.textDecoration = "line-through"
-                                //     calculateTotalDiscount+= ((cardTotalDiscount/($('.bill-total').data('actual-bill')-res.promo.shipping_cost))*res.promo.max_amount_discount)
-                                // });
-                                // res.bill.forEach((detail, _index) => {
-                                //     document.querySelector(`.card${_index}`).querySelectorAll('span')[1].innerHTML = parseFloat($(`.card-val-${_index}`).data('card')) - (parseFloat($(`.card-val-${_index}`).data('card')) / res.promo.max_amount_discount) + res.promo.shipping_cost / res.bill.length
-                                // })
-                                // document.querySelector('.bill-total').style.textDecoration = "line-through"
-                                // document.querySelector(`.bill-total-discount`).innerHTML = parseFloat($('.bill-total').data('actual-bill'))-calculateTotalDiscount
-                                // $('.bill-total-discount').data('discount', calculateTotalDiscount)
-
                                 res.bill.forEach((detail, _index) => {
                                     var cardTotalDiscount = 0
                                     detail.orders.forEach(order => {
@@ -221,13 +205,16 @@
             },
             error: function (err) {
                 Toastify({
-                    text: "Tidak boleh ada field kosong!",
+                    text: "Daftar pesanan tidak boleh ada field kosong!",
                     duration: 3000,
                     className: "error",
                     style: {
                         background: "#ff0000",
                     }
                 }).showToast()
+                
+                $('svg').css('display', 'none')
+                $('.calculate').css('display', 'block')
             }
         })
     })
