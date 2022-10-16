@@ -3,6 +3,10 @@
     var menu_counter = 0
 </script>
 
+@include('promo')
+        
+<hr>
+
 <div class="container">
     <div class="row card-container mb-3" style="display: flex; justify-content: center;">
         <div class="col-lg-6" style="border-radius: 30px">

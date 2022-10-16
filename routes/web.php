@@ -20,3 +20,6 @@ Route::get('/', function () {
 
 Route::post('save-calculation', [MainController::class, 'saveCalculation'])->name('save-calculation');
 Route::get('get-calculation', [MainController::class, 'getCalculation'])->name('get-calculation');
+Route::get('get-all-history', [MainController::class, 'getAllHistory'])->name('get-all-history');
+Route::get('get-history-page', [MainController::class, 'getHistoryPage'])->name('get-history-page');
+Route::get('get-home-page', [MainController::class, 'getHomePage'])->name('get-home-page');

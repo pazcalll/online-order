@@ -78,4 +78,20 @@ class MainController extends Controller
         // dd($bill['amount_discount'], $bill['min_price'], $bill['percentage_discount'], $bill['shipping_cost']);
         return response(['bill' => $newBill, 'promo' => $promo], 200);
     }
+
+    public function getAllHistory()
+    {
+        $historyAll = Bill::select('id', 'note')->get();
+        return response($historyAll, 200);
+    }
+
+    public function getHistoryPage()
+    {
+        return view('history');
+    }
+
+    public function getHomePage()
+    {
+        return view('content');
+    }
 }
