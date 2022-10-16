@@ -26,3 +26,9 @@ Buat database baru dan masukkan nama database tersebut ke dalam `.env` pada para
 Ubah isi parameter `DB_USERNAME=` dan `DB_PASSWORD=` pada berkas `.env` hingga sesuai dengan username dan password pada konfigurasi database masing-masing.
 
 Jalankan perintah `php artisan migrate:fresh` di dalam cmd/terminal yang sudah di arahkan ke direktori aplikasi, apabila sudah maka perintah `php artisan serve` bisa dijalankan.
+
+## Tentang Antarmuka Halaman
+
+Halaman pada aplikasi ini terdiri dari halaman `Beranda` dan `Riwayat`.
+
+`Beranda` dipakai untuk memasukkan orderan dari orang-orang terkait untuk dijadikan satu tagihan, `Riwayat` dipakai untuk melihat riwayat tagihan dari setiap kalkulasi yang dilakukan pengguna.
