@@ -27,6 +27,8 @@ Ubah isi parameter `DB_USERNAME=` dan `DB_PASSWORD=` pada berkas `.env` hingga s
 
 Jalankan perintah `php artisan migrate:fresh` di dalam cmd/terminal yang sudah di arahkan ke direktori aplikasi, apabila sudah maka perintah `php artisan serve` bisa dijalankan.
 
+Secara default server local bisa diakses dengan melalui link `http://localhost:8000` atau `http://127.0.0.1:8000`, namun bisa berbeda tergantung konfigurasi masing-masing pc
+
 ## Tentang Antarmuka Halaman
 
 Halaman pada aplikasi ini terdiri dari halaman `Beranda` dan `Riwayat`.

@@ -18,8 +18,6 @@ class CreateBillDetailsTable extends Migration
             $table->unsignedBigInteger('bill_id');
             $table->foreign('bill_id')->references('id')->on('bills')->onUpdate('cascade')->onDelete('cascade');
             $table->string('person');
-            // $table->unsignedBigInteger('person_id');
-            // $table->foreign('person_id')->references('id')->on('persons')->onUpdate('cascade')->onDelete('cascade');
             $table->string('food');
             $table->bigInteger('price');
             $table->integer('number');
