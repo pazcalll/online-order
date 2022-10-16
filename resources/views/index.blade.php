@@ -16,6 +16,8 @@
 
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
 
+    <link rel="stylesheet" href="{{ asset('css/toastify.min.css') }}">
+
 </head>
 <body>
 
@@ -38,6 +40,8 @@
     <script src="{{ asset('vendor/wow/wow.min.js') }}"></script>
 
     <script src="{{ asset('js/theme.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/toastify.js') }}"></script>
   
 </body>
 </html>
